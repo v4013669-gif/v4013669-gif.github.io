@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация - Волжские просторы</title>
+    <style>
+        /* Базовые стили */
+        :root {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-card: #0f3460;
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --accent-primary: #e94560;
+            --accent-secondary: #533483;
+            --border-color: #2d4059;
+            --success-color: #27ae60;
+            --error-color: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Шапка */
+        .header {
+            background: var(--bg-secondary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        .logo-subtitle {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent-primary);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Основной контент */
+        .registration-section {
+            padding: 120px 0 80px;
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .registration-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+
+        .registration-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .registration-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Форма */
+        .registration-form {
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 10px;
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .form-section h2 {
+            margin-bottom: 1.5rem;
+            color: var(--accent-primary);
+            font-size: 1.5rem;
+        }
+
+        .form-section h3 {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group label.required::after {
+            content: " *";
+            color: var(--accent-primary);
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.1);
+        }
+
+        .form-group input.error {
+            border-color: var(--error-color);
+        }
+
+        .form-group input.success {
+            border-color: var(--success-color);
+        }
+
+        .age-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .age-inputs .form-group {
+            margin-bottom: 0;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .radio-label input[type="radio"] {
+            margin: 0;
+        }
+
+        /* Загрузка фото */
+        .photo-upload {
+            border: 2px dashed var(--border-color);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .photo-upload:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .upload-text {
+            margin-bottom: 1rem;
+        }
+
+        .upload-btn {
+            background: var(--accent-primary);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background: #d13453;
+        }
+
+        /* Дополнительные участники */
+        .additional-participants {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .participant-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .participant-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-add,
+        .btn-remove {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-add {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-add:hover {
+            background: #219653;
+        }
+
+        .btn-remove {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .btn-remove:hover {
+            background: #c0392b;
+        }
+
+        /* Согласие */
+        .form-agreement {
+            margin: 2rem 0;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            margin-top: 0.2rem;
+        }
+
+        .checkbox-label a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+
+        .checkbox-label a:hover {
+            text-decoration: underline;
+        }
+
+        /* Кнопка регистрации */
+        .form-submit {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .btn-register {
+            background: var(--accent-primary);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-register:hover {
+            background: #d13453;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+        }
+
+        /* Сообщения */
+        .message {
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .message.success {
+            background: rgba(39, 174, 96, 0.1);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+        }
+
+        .message.error {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid var(--error-color);
+            color: var(--error-color);
+        }
+
+        .message.warning {
+            background: rgba(243, 156, 18, 0.1);
+            border: 1px solid #f39c12;
+            color: #f39c12;
+        }
+
+        .field-error {
+            color: var(--error-color);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        /* Подвал */
+        .footer {
+            background: var(--bg-card);
+            padding: 50px 0 20px;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-contacts {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .contact-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1.5rem;
+            color: var(--accent-primary);
+        }
+
+        .footer-nav,
+        .footer-tours {
+            list-style: none;
+        }
+
+        .footer-nav li,
+        .footer-tours li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-nav a,
+        .footer-tours a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-nav a:hover,
+        .footer-tours a:hover {
+            color: var(--accent-primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: fixed;
+                left: -100%;
+                top: 80px;
+                flex-direction: column;
+                background-color: var(--bg-secondary);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+                padding: 2rem 0;
+                gap: 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                margin: 1rem 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .age-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .registration-form {
+                padding: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .registration-section {
+                padding: 100px 0 60px;
+            }
+
+            .registration-header h1 {
+                font-size: 2rem;
+            }
+
+            .registration-form {
+                padding: 1.5rem;
+            }
+
+            .participant-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .participant-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <div class="logo-icon">🌊</div>
+                    <div class="logo-text">
+                        <span class="logo-title">Волжские просторы</span>
+                        <span class="logo-subtitle">туристическое агентство</span>
+                    </div>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="index.html#auth">Авторизация</a></li>
+                    <li><a href="account.html">Личный кабинет</a></li>
+                    <li><a href="index.html#about">О нас</a></li>
+                    <li><a href="index.html#tours">Экскурсии</a></li>
+                    <li><a href="index.html#search">Поиск</a></li>
+                    <li><a href="index.html#contacts">Контакты</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <section class="registration-section">
+        <div class="container">
+            <div class="registration-header">
+                <h1>Регистрация на сайте</h1>
+                <p>Заполните форму ниже чтобы создать учетную запись</p>
+            </div>
+
+            <div class="registration-container">
+                <!-- Сообщения -->
+                <div id="successMessage" class="message success">
+                    ✅ Регистрация прошла успешно! Данные корректны.
+                </div>
+                
+                <div id="errorMessage" class="message error">
+                    ❌ Обнаружены ошибки в форме. Пожалуйста, проверьте введенные данные.
+                </div>
+                
+                <div id="warningMessage" class="message warning">
+                    ⚠️ Не все обязательные поля заполнены. Пожалуйста, заполните отмеченные поля.
+                </div>
+
+                <form class="registration-form" id="registrationForm">
+                    <!-- Основная информация -->
+                    <div class="form-section">
+                        <h2>Основная информация</h2>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email" class="required">Email</label>
+                                <input type="email" id="email" name="email" required placeholder="your@email.com">
+                                <div class="field-error" id="emailError">Пожалуйста, введите корректный email</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="required">Пароль</label>
+                                <input type="password" id="password" name="password" required placeholder="Не менее 6 символов">
+                                <div class="field-error" id="passwordError">Пароль должен содержать не менее 6 символов</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName" class="required">Имя</label>
+                                <input type="text" id="firstName" name="firstName" required placeholder="Ваше имя">
+                                <div class="field-error" id="firstNameError">Пожалуйста, введите ваше имя</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName" class="required">Фамилия</label>
+                                <input type="text" id="lastName" name="lastName" required placeholder="Ваша фамилия">
+                                <div class="field-error" id="lastNameError">Пожалуйста, введите вашу фамилию</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="required">Возраст</label>
+                                <div class="age-inputs">
+                                    <div class="form-group">
+                                        <input type="number" id="ageNumber" name="ageNumber" min="1" max="120" placeholder="Возраст цифрами">
+                                    </div>
+                                    <div class="form-group">
+                                        <select id="ageRange" name="ageRange">
+                                            <option value="">Выберите диапазон</option>
+                                            <option value="under18">До 18 лет</option>
+                                            <option value="18-25">18-25 лет</option>
+                                            <option value="26-35">26-35 лет</option>
+                                            <option value="36-45">36-45 лет</option>
+                                            <option value="46-60">46-60 лет</option>
+                                            <option value="over60">Старше 60 лет</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="field-error" id="ageError">Пожалуйста, укажите возраст</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Пол</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="gender" value="male" required>
+                                        Мужской
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="gender" value="female" required>
+                                        Женский
+                                    </label>
+                                </div>
+                                <div class="field-error" id="genderError">Пожалуйста, выберите пол</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="confirmPassword" class="required">Повтор пароля</label>
+                                <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Повторите пароль">
+                                <div class="field-error" id="confirmPasswordError">Пароли не совпадают</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Фотография -->
+                    <div class="form-section">
+                        <h2>Фотография профиля</h2>
+                        <div class="form-group full-width">
+                            <div class="photo-upload" id="photoUpload">
+                                <div class="upload-icon">📷</div>
+                                <div class="upload-text">
+                                    <p>Нажмите для загрузки фотографии</p>
+                                    <p style="font-size: 0.9rem; opacity: 0.7;">Максимальный размер: 5MB</p>
+                                </div>
+                                <input type="file" id="photo" name="photo" accept="image/*" style="display: none;">
+                                <button type="button" class="upload-btn" onclick="document.getElementById('photo').click()">
+                                    Выбрать файл
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Дополнительные участники -->
+                    <div class="form-section">
+                        <h2>Дополнительные участники</h2>
+                        <p style="margin-bottom: 1rem; opacity: 0.8;">Вы можете добавить участников для совместных экскурсий</p>
+                        
+                        <div class="additional-participants">
+                            <div class="participant-header">
+                                <h3>Участник #1</h3>
+                                <div class="participant-actions">
+                                    <button type="button" class="btn-add">+ Добавить участника</button>
+                                    <button type="button" class="btn-remove">× Удалить</button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="participant1LastName">Фамилия</label>
+                                    <input type="text" id="participant1LastName" name="participant1LastName" placeholder="Фамилия участника">
+                                </div>
+                                <div class="form-group">
+                                    <label for="participant1FirstName">Имя</label>
+                                    <input type="text" id="participant1FirstName" name="participant1FirstName" placeholder="Имя участника">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="participant1Age">Возраст</label>
+                                    <input type="number" id="participant1Age" name="participant1Age" min="1" max="120" placeholder="Возраст">
+                                </div>
+                                <div class="form-group">
+                                    <label for="participant1Gender">Пол</label>
+                                    <select id="participant1Gender" name="participant1Gender">
+                                        <option value="">Выберите пол</option>
+                                        <option value="male">Мужской</option>
+                                        <option value="female">Женский</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Согласие -->
+                    <div class="form-section">
+                        <div class="form-agreement">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="agreement" name="agreement" required>
+                                <span>
+                                    Я соглашаюсь на обработку моих персональных данных в соответствии с 
+                                    <a href="#">политикой конфиденциальности</a> и 
+                                    <a href="#">пользовательским соглашением</a>
+                                </span>
+                            </label>
+                            <div class="field-error" id="agreementError">Необходимо ваше согласие</div>
+                        </div>
+                    </div>
+
+                    <!-- Кнопка регистрации -->
+                    <div class="form-submit">
+                        <button type="submit" class="btn-register">Зарегистрироваться</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon">🌊</div>
+                        <div class="logo-text">
+                            <span class="logo-title">Волжские просторы</span>
+                            <span class="logo-subtitle">туристическое агентство</span>
+                        </div>
+                    </div>
+                    <div class="footer-contacts">
+                        <a href="tel:88007894567" class="contact-link">📞 8 (800) 789-45-67</a>
+                        <a href="mailto:volzhskie-prostory@mail.ru" class="contact-link">✉️ volzhskie-prostory@mail.ru</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Навигация</h4>
+                    <ul class="footer-nav">
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="index-light.html">Главная-светлая</a></li>
+                        <li><a href="registration.html">Регистрация</a></li>
+                        <li><a href="tour.html">Экскурсия</a></li>
+                        <li><a href="account.html">Личный кабинет</a></li>
+                        <li><a href="404.html">Страница не найдена</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Экскурсии</h4>
+                    <ul class="footer-tours">
+                        <li><a href="tour.html">Нижегородский Кремль</a></li>
+                        <li><a href="tour.html">Чкаловская лестница</a></li>
+                        <li><a href="tour.html">Большая Покровская</a></li>
+                        <li><a href="tour.html">Рождественская улица</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Турагентство «Волжские просторы». Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Мобильное меню
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', function() {
+                    hamburger.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                    document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+                });
+
+                document.querySelectorAll('.nav-menu a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+
+            const form = document.getElementById('registrationForm');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            const warningMessage = document.getElementById('warningMessage');
+
+            // Валидация формы
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                hideAllMessages();
+                
+                const isValid = validateForm();
+                
+                if (isValid) {
+                    showMessage(successMessage);
+                    // В реальном проекте здесь была бы отправка данных на сервер
+                }
+            });
+
+            // Функции валидации
+            function validateForm() {
+                let isValid = true;
+                let hasEmptyFields = false;
+
+                // Валидация email
+                const email = document.getElementById('email');
+                const emailError = document.getElementById('emailError');
+                if (!email.value || !isValidEmail(email.value)) {
+                    showError(email, emailError, 'Пожалуйста, введите корректный email');
+                    isValid = false;
+                    hasEmptyFields = true;
+                } else {
+                    hideError(email, emailError);
+                }
+
+                // Валидация пароля
+                const password = document.getElementById('password');
+                const passwordError = document.getElementById('passwordError');
+                if (!password.value || password.value.length < 6) {
+                    showError(password, passwordError, 'Пароль должен содержать не менее 6 символов');
+                    isValid = false;
+                    hasEmptyFields = true;
+                } else {
+                    hideError(password, passwordError);
+                }
+
+                // Валидация подтверждения пароля
+                const confirmPassword = document.getElementById('confirmPassword');
+                const confirmPasswordError = document.getElementById('confirmPasswordError');
+                if (!confirmPassword.value || confirmPassword.value !== password.value) {
+                    showError(confirmPassword, confirmPasswordError, 'Пароли не совпадают');
+                    isValid = false;
+                    hasEmptyFields = true;
+                } else {
+                    hideError(confirmPassword, confirmPasswordError);
+                }
+
+                // Валидация имени
+                const firstName = document.getElementById('firstName');
+                const firstNameError = document.getElementById('firstNameError');
+                if (!firstName.value) {
+                    showError(firstName, firstNameError, 'Пожалуйста, введите ваше имя');
+                    isValid = false;
+                    hasEmptyFields = true;
+                } else {
+                    hideError(firstName, firstNameError);
+                }
+
+                // Валидация фамилии
+                const lastName = document.getElementById('lastName');
+                const lastNameError = document.getElementById('lastNameError');
+                if (!lastName.value) {
+                    showError(lastName, lastNameError, 'Пожалуйста, введите вашу фамилию');
+                    isValid = false;
+                    hasEmptyFields = true;
+                } else {
+                    hideError(lastName, lastNameError);
+                }
+
+                // Валидация возраста
+                const ageNumber = document.getElementById('ageNumber');
+                const ageRange = document.getElementById('ageRange');
+                const ageError = document.getElementById('ageError');
+                if (!ageNumber.value && !ageRange.value) {
+                    showError(ageNumber, ageError, 'Пожалуйста, укажите возраст');
+                    isValid = false;
+                    hasEmptyFields = true;
+                } else {
+                    hideError(ageNumber, ageError);
+                }
+
+                // Валидация пола
+                const gender = document.querySelector('input[name="gender"]:checked');
+                const genderError = document.getElementById('genderError');
+                if (!gender) {
+                    genderError.style.display = 'block';
+                    isValid = false;
+                    hasEmptyFields = true;
+                } else {
+                    genderError.style.display = 'none';
+                }
+
+                // Валидация согласия
+                const agreement = document.getElementById('agreement');
+                const agreementError = document.getElementById('agreementError');
+                if (!agreement.checked) {
+                    agreementError.style.display = 'block';
+                    isValid = false;
+                    hasEmptyFields = true;
+                } else {
+                    agreementError.style.display = 'none';
+                }
+
+                // Показываем соответствующее сообщение
+                if (!isValid && hasEmptyFields) {
+                    showMessage(warningMessage);
+                } else if (!isValid) {
+                    showMessage(errorMessage);
+                }
+
+                return isValid;
+            }
+
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            function showError(input, errorElement, message) {
+                input.classList.add('error');
+                input.classList.remove('success');
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+
+            function hideError(input, errorElement) {
+                input.classList.remove('error');
+                input.classList.add('success');
+                errorElement.style.display = 'none';
+            }
+
+            function showMessage(messageElement) {
+                messageElement.style.display = 'block';
+                setTimeout(() => {
+                    messageElement.style.display = 'none';
+                }, 5000);
+            }
+
+            function hideAllMessages() {
+                successMessage.style.display = 'none';
+                errorMessage.style.display = 'none';
+                warningMessage.style.display = 'none';
+            }
+
+            // Обработка загрузки фото
+            const photoUpload = document.getElementById('photoUpload');
+            const photoInput = document.getElementById('photo');
+
+            photoInput.addEventListener('change', function(e) {
+                if (this.files && this.files[0]) {
+                    const fileName = this.files[0].name;
+                    photoUpload.querySelector('.upload-text p:first-child').textContent = `Файл: ${fileName}`;
+                }
+            });
+
+            // Демонстрация добавления/удаления участников
+            document.querySelector('.btn-add').addEventListener('click', function() {
+                alert('Функция добавления участника будет реализована в полной версии');
+            });
+
+            document.querySelector('.btn-remove').addEventListener('click', function() {
+                alert('Функция удаления участника будет реализована в полной версии');
+            });
+        });
+    </script>
+</body>
+</html>

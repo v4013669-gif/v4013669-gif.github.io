@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расписание экскурсий - Волжские просторы</title>
+    <style>
+        /* Базовые стили */
+        :root {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-card: #0f3460;
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --accent-primary: #e94560;
+            --accent-secondary: #533483;
+            --border-color: #2d4059;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --error-color: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Шапка */
+        .header {
+            background: var(--bg-secondary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        .logo-subtitle {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent-primary);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Основной контент */
+        .schedule-section {
+            padding: 120px 0 80px;
+        }
+
+        .schedule-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .schedule-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+
+        .schedule-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        /* Фильтры и управление */
+        .schedule-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+
+        .date-navigation {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #d13453;
+        }
+
+        .current-date {
+            font-size: 1.3rem;
+            font-weight: 600;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .legend {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+
+        .legend-available {
+            background: var(--success-color);
+        }
+
+        .legend-few {
+            background: var(--warning-color);
+        }
+
+        .legend-full {
+            background: var(--error-color);
+        }
+
+        /* Таблица расписания */
+        .schedule-container {
+            background: var(--bg-card);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .schedule-table thead th {
+            background: var(--accent-secondary);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .schedule-table thead th:first-child {
+            background: var(--accent-primary);
+            position: sticky;
+            left: 0;
+            z-index: 20;
+            min-width: 200px;
+        }
+
+        .schedule-table tbody th {
+            background: var(--bg-secondary);
+            position: sticky;
+            left: 0;
+            z-index: 5;
+            text-align: left;
+            font-weight: 600;
+            min-width: 200px;
+        }
+
+        /* Ячейки с количеством мест */
+        .slot-cell {
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .slot-cell:hover {
+            transform: scale(1.05);
+            z-index: 2;
+        }
+
+        .slot-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            border-radius: 5px;
+        }
+
+        /* Статусы мест */
+        .available {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .few-left {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .full {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .unavailable {
+            background: var(--border-color);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+        }
+
+        .slot-cell.full:hover::after {
+            content: "Мест нет";
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--error-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            z-index: 100;
+        }
+
+        .slot-cell.available:hover::after {
+            content: "Свободные места";
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            z-index: 100;
+        }
+
+        /* Мобильная версия таблицы */
+        .mobile-schedule {
+            display: none;
+        }
+
+        .mobile-day {
+            background: var(--bg-card);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .mobile-day-header {
+            background: var(--accent-secondary);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .mobile-tours {
+            padding: 1rem;
+        }
+
+        .mobile-tour {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .mobile-tour:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-tour-name {
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .mobile-slots {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .mobile-slot {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Подвал */
+        .footer {
+            background: var(--bg-card);
+            padding: 50px 0 20px;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-contacts {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .contact-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1.5rem;
+            color: var(--accent-primary);
+        }
+
+        .footer-nav,
+        .footer-tours {
+            list-style: none;
+        }
+
+        .footer-nav li,
+        .footer-tours li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-nav a,
+        .footer-tours a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-nav a:hover,
+        .footer-tours a:hover {
+            color: var(--accent-primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 100%;
+                padding: 0 15px;
+            }
+            
+            .schedule-table {
+                font-size: 0.9rem;
+            }
+            
+            .slot-cell {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .schedule-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-controls {
+                justify-content: center;
+            }
+            
+            .legend {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: fixed;
+                left: -100%;
+                top: 80px;
+                flex-direction: column;
+                background-color: var(--bg-secondary);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+                padding: 2rem 0;
+                gap: 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                margin: 1rem 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .desktop-schedule {
+                display: none;
+            }
+
+            .mobile-schedule {
+                display: block;
+            }
+
+            .schedule-section {
+                padding: 100px 0 60px;
+            }
+
+            .schedule-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+            }
+            
+            .legend {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .mobile-slots {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+            
+            .mobile-slot {
+                width: 35px;
+                height: 35px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <div class="logo-icon">🌊</div>
+                    <div class="logo-text">
+                        <span class="logo-title">Волжские просторы</span>
+                        <span class="logo-subtitle">туристическое агентство</span>
+                    </div>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="registration.html">Регистрация</a></li>
+                    <li><a href="index.html#auth">Авторизация</a></li>
+                    <li><a href="account.html">Личный кабинет</a></li>
+                    <li><a href="index.html#about">О нас</a></li>
+                    <li><a href="index.html#tours">Экскурсии</a></li>
+                    <li><a href="index.html#search">Поиск</a></li>
+                    <li><a href="index.html#contacts">Контакты</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <section class="schedule-section">
+        <div class="container">
+            <div class="schedule-header">
+                <h1>Расписание экскурсий</h1>
+                <p>Выберите удобное время для посещения экскурсий. Квадраты показывают количество свободных мест.</p>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color legend-available"></div>
+                        <span>Много мест (>5)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-few"></div>
+                        <span>Мало мест (1-5)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-full"></div>
+                        <span>Мест нет</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color unavailable"></div>
+                        <span>Не доступно</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Управление расписанием -->
+            <div class="schedule-controls">
+                <div class="date-navigation">
+                    <button class="nav-btn prev">‹</button>
+                    <div class="current-date">Декабрь 2024</div>
+                    <button class="nav-btn next">›</button>
+                </div>
+                
+                <div class="filter-controls">
+                    <select class="filter-select" id="tourFilter">
+                        <option value="all">Все экскурсии</option>
+                        <option value="available">Только доступные</option>
+                        <option value="popular">Популярные</option>
+                    </select>
+                    
+                    <select class="filter-select" id="timeFilter">
+                        <option value="all">Все время</option>
+                        <option value="morning">Утро (9:00-12:00)</option>
+                        <option value="day">День (12:00-17:00)</option>
+                        <option value="evening">Вечер (17:00-21:00)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Десктопная версия таблицы -->
+            <div class="schedule-container desktop-schedule">
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Экскурсия / Время</th>
+                            <th>9:00-10:00</th>
+                            <th>10:00-11:00</th>
+                            <th>11:00-12:00</th>
+                            <th>12:00-13:00</th>
+                            <th>13:00-14:00</th>
+                            <th>14:00-15:00</th>
+                            <th>15:00-16:00</th>
+                            <th>16:00-17:00</th>
+                            <th>17:00-18:00</th>
+                            <th>18:00-19:00</th>
+                            <th>19:00-20:00</th>
+                            <th>20:00-21:00</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Нижегородский Кремль -->
+                        <tr>
+                            <th>Нижегородский Кремль</th>
+                            <td><div class="slot-cell"><div class="slot-content available">12</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">8</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content few-left">3</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content full">0</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">15</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">10</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content few-left">2</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">7</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                        </tr>
+                        
+                        <!-- Чкаловская лестница -->
+                        <tr>
+                            <th>Чкаловская лестница</th>
+                            <td><div class="slot-cell"><div class="slot-content available">20</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">18</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">15</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content few-left">4</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content full">0</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">12</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">9</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content few-left">1</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">8</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">6</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                        </tr>
+                        
+                        <!-- Большая Покровская -->
+                        <tr>
+                            <th>Большая Покровская</th>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">25</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">22</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">18</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content few-left">5</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content full">0</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">14</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">11</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content few-left">3</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">9</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                        </tr>
+                        
+                        <!-- Рождественская улица -->
+                        <tr>
+                            <th>Рождественская улица</th>
+                            <td><div class="slot-cell"><div class="slot-content available">16</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content few-left">2</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content full">0</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">13</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">10</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content few-left">4</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">8</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                        </tr>
+                        
+                        <!-- Набережные Волги и Оки -->
+                        <tr>
+                            <th>Набережные Волги и Оки</th>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">30</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">28</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">25</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">21</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content few-left">3</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content full">0</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">17</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">14</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content few-left">2</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">11</div></div></td>
+                        </tr>
+                        
+                        <!-- Музей истории ГАЗ -->
+                        <tr>
+                            <th>Музей истории ГАЗ</th>
+                            <td><div class="slot-cell"><div class="slot-content available">8</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content few-left">1</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content full">0</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">6</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">4</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                        </tr>
+                        
+                        <!-- Парк Победы -->
+                        <tr>
+                            <th>Парк Победы</th>
+                            <td><div class="slot-cell"><div class="slot-content available">35</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">32</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">29</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">26</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content few-left">5</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content full">0</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">23</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">20</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content few-left">4</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">18</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content available">15</div></div></td>
+                            <td><div class="slot-cell"><div class="slot-content unavailable">-</div></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Мобильная версия -->
+            <div class="mobile-schedule">
+                <!-- День 1 -->
+                <div class="mobile-day">
+                    <div class="mobile-day-header">15 декабря 2024</div>
+                    <div class="mobile-tours">
+                        <div class="mobile-tour">
+                            <div class="mobile-tour-name">Нижегородский Кремль</div>
+                            <div class="mobile-slots">
+                                <div class="mobile-slot available">12</div>
+                                <div class="mobile-slot available">8</div>
+                                <div class="mobile-slot few-left">3</div>
+                                <div class="mobile-slot full">0</div>
+                            </div>
+                        </div>
+                        <div class="mobile-tour">
+                            <div class="mobile-tour-name">Чкаловская лестница</div>
+                            <div class="mobile-slots">
+                                <div class="mobile-slot available">20</div>
+                                <div class="mobile-slot available">18</div>
+                                <div class="mobile-slot available">15</div>
+                                <div class="mobile-slot few-left">4</div>
+                            </div>
+                        </div>
+                        <div class="mobile-tour">
+                            <div class="mobile-tour-name">Большая Покровская</div>
+                            <div class="mobile-slots">
+                                <div class="mobile-slot unavailable">-</div>
+                                <div class="mobile-slot unavailable">-</div>
+                                <div class="mobile-slot available">25</div>
+                                <div class="mobile-slot available">22</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- День 2 -->
+                <div class="mobile-day">
+                    <div class="mobile-day-header">16 декабря 2024</div>
+                    <div class="mobile-tours">
+                        <div class="mobile-tour">
+                            <div class="mobile-tour-name">Рождественская улица</div>
+                            <div class="mobile-slots">
+                                <div class="mobile-slot available">16</div>
+                                <div class="mobile-slot few-left">2</div>
+                                <div class="mobile-slot full">0</div>
+                                <div class="mobile-slot available">13</div>
+                            </div>
+                        </div>
+                        <div class="mobile-tour">
+                            <div class="mobile-tour-name">Набережные Волги и Оки</div>
+                            <div class="mobile-slots">
+                                <div class="mobile-slot unavailable">-</div>
+                                <div class="mobile-slot unavailable">-</div>
+                                <div class="mobile-slot available">30</div>
+                                <div class="mobile-slot available">28</div>
+                            </div>
+                        </div>
+                        <div class="mobile-tour">
+                            <div class="mobile-tour-name">Музей истории ГАЗ</div>
+                            <div class="mobile-slots">
+                                <div class="mobile-slot available">8</div>
+                                <div class="mobile-slot few-left">1</div>
+                                <div class="mobile-slot full">0</div>
+                                <div class="mobile-slot available">6</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon">🌊</div>
+                        <div class="logo-text">
+                            <span class="logo-title">Волжские просторы</span>
+                            <span class="logo-subtitle">туристическое агентство</span>
+                        </div>
+                    </div>
+                    <div class="footer-contacts">
+                        <a href="tel:88007894567" class="contact-link">📞 8 (800) 789-45-67</a>
+                        <a href="mailto:volzhskie-prostory@mail.ru" class="contact-link">✉️ volzhskie-prostory@mail.ru</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Навигация</h4>
+                    <ul class="footer-nav">
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="index-light.html">Главная-светлая</a></li>
+                        <li><a href="registration.html">Регистрация</a></li>
+                        <li><a href="tour.html">Экскурсия</a></li>
+                        <li><a href="account.html">Личный кабинет</a></li>
+                        <li><a href="404.html">Страница не найдена</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Экскурсии</h4>
+                    <ul class="footer-tours">
+                        <li><a href="tour.html">Нижегородский Кремль</a></li>
+                        <li><a href="tour.html">Чкаловская лестница</a></li>
+                        <li><a href="tour.html">Большая Покровская</a></li>
+                        <li><a href="tour.html">Рождественская улица</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Турагентство «Волжские просторы». Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Мобильное меню
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', function() {
+                    hamburger.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                    document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+                });
+
+                document.querySelectorAll('.nav-menu a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+
+            // Обработка кликов по ячейкам расписания
+            document.querySelectorAll('.slot-cell:not(.unavailable)').forEach(cell => {
+                cell.addEventListener('click', function() {
+                    const slots = this.querySelector('.slot-content').textContent;
+                    if (slots !== '0' && slots !== '-') {
+                        alert(`Забронировать место на экскурсию? Свободных мест: ${slots}`);
+                        // В реальном проекте здесь будет переход на страницу бронирования
+                    } else if (slots === '0') {
+                        alert('К сожалению, на это время все места заняты');
+                    }
+                });
+            });
+
+            // Обработка мобильных слотов
+            document.querySelectorAll('.mobile-slot:not(.unavailable)').forEach(slot => {
+                slot.addEventListener('click', function() {
+                    const slots = this.textContent;
+                    if (slots !== '0' && slots !== '-') {
+                        alert(`Забронировать место? Свободных мест: ${slots}`);
+                    } else if (slots === '0') {
+                        alert('К сожалению, на это время все места заняты');
+                    }
+                });
+            });
+
+            // Фильтрация
+            const tourFilter = document.getElementById('tourFilter');
+            const timeFilter = document.getElementById('timeFilter');
+
+            tourFilter.addEventListener('change', function() {
+                alert(`Фильтр экскурсий: ${this.value}`);
+                // В реальном проекте здесь будет фильтрация таблицы
+            });
+
+            timeFilter.addEventListener('change', function() {
+                alert(`Фильтр времени: ${this.value}`);
+                // В реальном проекте здесь будет фильтрация таблицы
+            });
+
+            // Навигация по датам
+            document.querySelector('.nav-btn.prev').addEventListener('click', function() {
+                alert('Переход к предыдущей неделе');
+            });
+
+            document.querySelector('.nav-btn.next').addEventListener('click', function() {
+                alert('Переход к следующей неделе');
+            });
+        });
+    </script>
+</body>
+</html>

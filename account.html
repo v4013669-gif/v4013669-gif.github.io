@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет - Волжские просторы</title>
+    <style>
+        /* Базовые стили */
+        :root {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-card: #0f3460;
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --accent-primary: #e94560;
+            --accent-secondary: #533483;
+            --border-color: #2d4059;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --error-color: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Шапка */
+        .header {
+            background: var(--bg-secondary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        .logo-subtitle {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent-primary);
+        }
+
+        .btn-logout {
+            background: var(--error-color);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-logout:hover {
+            background: #c0392b;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Основной контент */
+        .account-section {
+            padding: 120px 0 80px;
+        }
+
+        .account-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .account-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+
+        .account-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .account-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 3rem;
+        }
+
+        /* Боковая панель */
+        .account-sidebar {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 2rem;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .user-info h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .user-info p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .account-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: var(--bg-secondary);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Основная область */
+        .account-content {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 2rem;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            color: var(--accent-primary);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            opacity: 0.8;
+        }
+
+        /* Форма записи на экскурсию */
+        .booking-form {
+            max-width: 600px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group label.required::after {
+            content: " *";
+            color: var(--accent-primary);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.1);
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .time-slot {
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--bg-secondary);
+        }
+
+        .time-slot:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .time-slot.selected {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        .time-slot.unavailable {
+            background: var(--error-color);
+            border-color: var(--error-color);
+            color: white;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .participants-control {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .participants-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--accent-primary);
+            background: transparent;
+            color: var(--accent-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .participants-btn:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .participants-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .participants-count {
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .form-submit {
+            margin-top: 2rem;
+        }
+
+        .btn-book {
+            background: var(--accent-primary);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-book:hover {
+            background: #d13453;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+        }
+
+        /* Мои бронирования */
+        .bookings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .booking-card {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent-primary);
+        }
+
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .booking-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .booking-status {
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-confirmed {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .status-pending {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .status-cancelled {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .booking-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .booking-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .booking-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            color: var(--error-color);
+            border: 1px solid var(--error-color);
+        }
+
+        .btn-cancel:hover {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .btn-details {
+            background: transparent;
+            color: var(--accent-primary);
+            border: 1px solid var(--accent-primary);
+        }
+
+        .btn-details:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        /* Настройки профиля */
+        .profile-form {
+            max-width: 600px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Сообщения */
+        .message {
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .message.success {
+            background: rgba(39, 174, 96, 0.1);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+        }
+
+        .message.error {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid var(--error-color);
+            color: var(--error-color);
+        }
+
+        /* Подвал */
+        .footer {
+            background: var(--bg-card);
+            padding: 50px 0 20px;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-contacts {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .contact-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1.5rem;
+            color: var(--accent-primary);
+        }
+
+        .footer-nav,
+        .footer-tours {
+            list-style: none;
+        }
+
+        .footer-nav li,
+        .footer-tours li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-nav a,
+        .footer-tours a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-nav a:hover,
+        .footer-tours a:hover {
+            color: var(--accent-primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .account-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .account-sidebar {
+                position: static;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: fixed;
+                left: -100%;
+                top: 80px;
+                flex-direction: column;
+                background-color: var(--bg-secondary);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+                padding: 2rem 0;
+                gap: 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                margin: 1rem 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .account-section {
+                padding: 100px 0 60px;
+            }
+
+            .account-header h1 {
+                font-size: 2rem;
+            }
+
+            .booking-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .booking-details {
+                grid-template-columns: 1fr;
+            }
+
+            .time-slots {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            }
+        }
+
+        @media (max-width: 576px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .account-sidebar,
+            .account-content {
+                padding: 1.5rem;
+            }
+            
+            .booking-actions {
+                flex-direction: column;
+            }
+            
+            .btn-action {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <div class="logo-icon">🌊</div>
+                    <div class="logo-text">
+                        <span class="logo-title">Волжские просторы</span>
+                        <span class="logo-subtitle">туристическое агентство</span>
+                    </div>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="index.html#auth">Авторизация</a></li>
+                    <li><a href="account.html" class="active">Личный кабинет</a></li>
+                    <li><a href="index.html#about">О нас</a></li>
+                    <li><a href="index.html#tours">Экскурсии</a></li>
+                    <li><a href="index.html#search">Поиск</a></li>
+                    <li><a href="index.html#contacts">Контакты</a></li>
+                    <li><button class="btn-logout" id="logoutBtn">Выйти</button></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <section class="account-section">
+        <div class="container">
+            <div class="account-header">
+                <h1>Личный кабинет</h1>
+                <p>Управление вашими бронированиями и настройками профиля</p>
+            </div>
+
+            <div class="account-layout">
+                <!-- Боковая панель -->
+                <aside class="account-sidebar">
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            ИИ
+                        </div>
+                        <div class="user-info">
+                            <h3>Иван Иванов</h3>
+                            <p>ivan@example.com</p>
+                        </div>
+                    </div>
+                    
+                    <nav class="account-nav">
+                        <div class="nav-item active" data-target="booking">
+                            <span class="nav-icon">📋</span>
+                            <span class="nav-text">Запись на экскурсию</span>
+                        </div>
+                        <div class="nav-item" data-target="bookings">
+                            <span class="nav-icon">🗓️</span>
+                            <span class="nav-text">Мои бронирования</span>
+                        </div>
+                        <div class="nav-item" data-target="profile">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">Настройки профиля</span>
+                        </div>
+                    </nav>
+                </aside>
+
+                <!-- Основная область -->
+                <main class="account-content">
+                    <!-- Сообщения -->
+                    <div id="successMessage" class="message success">
+                        ✅ Запись на экскурсию успешно оформлена!
+                    </div>
+                    
+                    <div id="errorMessage" class="message error">
+                        ❌ Ошибка при оформлении записи. Пожалуйста, проверьте данные.
+                    </div>
+
+                    <!-- Раздел: Запись на экскурсию -->
+                    <div class="content-section active" id="booking-content">
+                        <div class="section-header">
+                            <h2>Запись на экскурсию</h2>
+                            <p>Выберите экскурсию и удобное время для посещения</p>
+                        </div>
+
+                        <form class="booking-form" id="bookingForm">
+                            <div class="form-group">
+                                <label for="excursion" class="required">Экскурсия</label>
+                                <select id="excursion" name="excursion" required>
+                                    <option value="">Выберите экскурсию</option>
+                                    <option value="kremlin">Нижегородский Кремль</option>
+                                    <option value="stairs">Чкаловская лестница</option>
+                                    <option value="pokrovskaya">Большая Покровская</option>
+                                    <option value="christmas">Рождественская улица</option>
+                                    <option value="embankment">Набережные Волги и Оки</option>
+                                    <option value="gaz">Музей истории ГАЗ</option>
+                                    <option value="park">Парк Победы</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="date" class="required">Дата</label>
+                                <input type="date" id="date" name="date" required min="2024-12-15">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="required">Время</label>
+                                <div class="time-slots" id="timeSlots">
+                                    <!-- Временные слоты будут сгенерированы JavaScript -->
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="required">Количество человек</label>
+                                <div class="participants-control">
+                                    <button type="button" class="participants-btn" id="decreaseParticipants">-</button>
+                                    <span class="participants-count" id="participantsCount">1</span>
+                                    <button type="button" class="participants-btn" id="increaseParticipants">+</button>
+                                </div>
+                                <input type="hidden" id="participants" name="participants" value="1" required>
+                            </div>
+
+                            <div class="form-submit">
+                                <button type="submit" class="btn-book">Записаться на экскурсию</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Раздел: Мои бронирования -->
+                    <div class="content-section" id="bookings-content">
+                        <div class="section-header">
+                            <h2>Мои бронирования</h2>
+                            <p>История и текущие записи на экскурсии</p>
+                        </div>
+
+                        <div class="bookings-list">
+                            <!-- Бронирование 1 -->
+                            <div class="booking-card">
+                                <div class="booking-header">
+                                    <div>
+                                        <div class="booking-title">Нижегородский Кремль</div>
+                                        <div class="booking-detail">📅 15 декабря 2024, 14:00-16:00</div>
+                                    </div>
+                                    <div class="booking-status status-confirmed">Подтверждено</div>
+                                </div>
+                                <div class="booking-details">
+                                    <div class="booking-detail">👥 2 человека</div>
+                                    <div class="booking-detail">💰 3000 руб.</div>
+                                    <div class="booking-detail">📍 Площадь Минина</div>
+                                </div>
+                                <div class="booking-actions">
+                                    <button class="btn-action btn-cancel">Отменить</button>
+                                    <button class="btn-action btn-details">Детали</button>
+                                </div>
+                            </div>
+
+                            <!-- Бронирование 2 -->
+                            <div class="booking-card">
+                                <div class="booking-header">
+                                    <div>
+                                        <div class="booking-title">Чкаловская лестница</div>
+                                        <div class="booking-detail">📅 20 декабря 2024, 11:00-12:30</div>
+                                    </div>
+                                    <div class="booking-status status-pending">Ожидание</div>
+                                </div>
+                                <div class="booking-details">
+                                    <div class="booking-detail">👥 1 человек</div>
+                                    <div class="booking-detail">💰 1200 руб.</div>
+                                    <div class="booking-detail">📍 Чкаловская лестница</div>
+                                </div>
+                                <div class="booking-actions">
+                                    <button class="btn-action btn-cancel">Отменить</button>
+                                    <button class="btn-action btn-details">Оплатить</button>
+                                </div>
+                            </div>
+
+                            <!-- Бронирование 3 -->
+                            <div class="booking-card">
+                                <div class="booking-header">
+                                    <div>
+                                        <div class="booking-title">Большая Покровская</div>
+                                        <div class="booking-detail">📅 5 декабря 2024, 15:00-17:30</div>
+                                    </div>
+                                    <div class="booking-status status-cancelled">Завершено</div>
+                                </div>
+                                <div class="booking-details">
+                                    <div class="booking-detail">👥 3 человека</div>
+                                    <div class="booking-detail">💰 5400 руб.</div>
+                                    <div class="booking-detail">📍 Начало улицы</div>
+                                </div>
+                                <div class="booking-actions">
+                                    <button class="btn-action btn-details">Оставить отзыв</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Раздел: Настройки профиля -->
+                    <div class="content-section" id="profile-content">
+                        <div class="section-header">
+                            <h2>Настройки профиля</h2>
+                            <p>Управление личной информацией и настройками</p>
+                        </div>
+
+                        <form class="profile-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="profileFirstName">Имя</label>
+                                    <input type="text" id="profileFirstName" value="Иван">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profileLastName">Фамилия</label>
+                                    <input type="text" id="profileLastName" value="Иванов">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profileEmail">Email</label>
+                                <input type="email" id="profileEmail" value="ivan@example.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profilePhone">Телефон</label>
+                                <input type="tel" id="profilePhone" value="+7 (912) 345-67-89">
+                            </div>
+
+                            <div class="form-submit">
+                                <button type="submit" class="btn-book">Сохранить изменения</button>
+                            </div>
+                        </form>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon">🌊</div>
+                        <div class="logo-text">
+                            <span class="logo-title">Волжские просторы</span>
+                            <span class="logo-subtitle">туристическое агентство</span>
+                        </div>
+                    </div>
+                    <div class="footer-contacts">
+                        <a href="tel:88007894567" class="contact-link">📞 8 (800) 789-45-67</a>
+                        <a href="mailto:volzhskie-prostory@mail.ru" class="contact-link">✉️ volzhskie-prostory@mail.ru</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Навигация</h4>
+                    <ul class="footer-nav">
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="index-light.html">Главная-светлая</a></li>
+                        <li><a href="tour.html">Экскурсия</a></li>
+                        <li><a href="account.html">Личный кабинет</a></li>
+                        <li><a href="404.html">Страница не найдена</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Экскурсии</h4>
+                    <ul class="footer-tours">
+                        <li><a href="tour.html">Нижегородский Кремль</a></li>
+                        <li><a href="tour.html">Чкаловская лестница</a></li>
+                        <li><a href="tour.html">Большая Покровская</a></li>
+                        <li><a href="tour.html">Рождественская улица</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Турагентство «Волжские просторы». Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Мобильное меню
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', function() {
+                    hamburger.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                    document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+                });
+
+                document.querySelectorAll('.nav-menu a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+
+            // Навигация в личном кабинете
+            const navItems = document.querySelectorAll('.nav-item');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const target = this.getAttribute('data-target');
+                    
+                    // Убираем активный класс у всех элементов
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    contentSections.forEach(section => section.classList.remove('active'));
+                    
+                    // Добавляем активный класс к выбранному элементу
+                    this.classList.add('active');
+                    
+                    // Показываем соответствующую секцию
+                    document.getElementById(`${target}-content`).classList.add('active');
+                });
+            });
+
+            // Генерация временных слотов
+            function generateTimeSlots() {
+                const timeSlotsContainer = document.getElementById('timeSlots');
+                timeSlotsContainer.innerHTML = '';
+
+                for (let hour = 9; hour <= 21; hour++) {
+                    const timeSlot = document.createElement('div');
+                    timeSlot.className = 'time-slot';
+                    timeSlot.textContent = `${hour}:00`;
+                    timeSlot.setAttribute('data-time', `${hour}:00`);
+
+                    // Случайным образом помечаем некоторые слоты как недоступные
+                    if (Math.random() < 0.3) {
+                        timeSlot.classList.add('unavailable');
+                    }
+
+                    timeSlot.addEventListener('click', function() {
+                        if (!this.classList.contains('unavailable')) {
+                            // Снимаем выделение со всех слотов
+                            document.querySelectorAll('.time-slot').forEach(slot => {
+                                slot.classList.remove('selected');
+                            });
+                            // Выделяем выбранный слот
+                            this.classList.add('selected');
+                        }
+                    });
+
+                    timeSlotsContainer.appendChild(timeSlot);
+                }
+            }
+
+            // Управление количеством участников
+            const decreaseBtn = document.getElementById('decreaseParticipants');
+            const increaseBtn = document.getElementById('increaseParticipants');
+            const participantsCount = document.getElementById('participantsCount');
+            const participantsInput = document.getElementById('participants');
+
+            let participants = 1;
+
+            decreaseBtn.addEventListener('click', function() {
+                if (participants > 1) {
+                    participants--;
+                    updateParticipants();
+                }
+            });
+
+            increaseBtn.addEventListener('click', function() {
+                if (participants < 10) {
+                    participants++;
+                    updateParticipants();
+                }
+            });
+
+            function updateParticipants() {
+                participantsCount.textContent = participants;
+                participantsInput.value = participants;
+                
+                // Блокируем кнопки при достижении границ
+                decreaseBtn.disabled = participants === 1;
+                increaseBtn.disabled = participants === 10;
+            }
+
+            // Выход из профиля
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                if (confirm('Вы уверены, что хотите выйти из профиля?')) {
+                    alert('Выход из профиля выполнен');
+                    // В реальном проекте здесь будет перенаправление на главную страницу
+                    window.location.href = 'index.html';
+                }
+            });
+
+            // Обработка формы записи
+            document.getElementById('bookingForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const selectedTime = document.querySelector('.time-slot.selected');
+                if (!selectedTime) {
+                    alert('Пожалуйста, выберите время');
+                    return;
+                }
+
+                // Показываем сообщение об успехе
+                document.getElementById('successMessage').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 5000);
+
+                // Очищаем форму
+                this.reset();
+                participants = 1;
+                updateParticipants();
+                generateTimeSlots();
+                
+                // Переключаемся на раздел с бронированиями
+                document.querySelector('[data-target="bookings"]').click();
+            });
+
+            // Обработка форм в других разделах
+            document.querySelectorAll('.profile-form, .booking-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Изменения сохранены!');
+                });
+            });
+
+            // Обработка действий с бронированиями
+            document.querySelectorAll('.btn-cancel').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (confirm('Вы уверены, что хотите отменить бронирование?')) {
+                        alert('Бронирование отменено');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.btn-details').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    alert('Переход к деталям бронирования');
+                });
+            });
+
+            // Инициализация
+            generateTimeSlots();
+            updateParticipants();
+
+            // Устанавливаем минимальную дату как сегодня
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').min = today;
+        });
+    </script>
+</body>
+</html>
