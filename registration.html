@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация на экскурсию - Волжские просторы</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dark-theme.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <h2><a href="index.html" style="color: inherit; text-decoration: none;">Волжские просторы</a></h2>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html#tours">Экскурсии</a></li>
+                    <li><a href="schedule.html">Расписание</a></li>
+                    <li><a href="index.html#about">О нас</a></li>
+                    <li><a href="index.html#contacts">Контакты</a></li>
+                    <li><a href="account.html" class="btn-login">Личный кабинет</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Registration Section -->
+    <section class="registration">
+        <div class="container">
+            <div class="registration-content">
+                <div class="registration-header">
+                    <h1>Регистрация на экскурсию</h1>
+                    <p>Заполните форму ниже чтобы забронировать место</p>
+                </div>
+
+                <div class="registration-grid">
+                    <div class="tour-summary">
+                        <h3>Выбранная экскурсия</h3>
+                        <div class="selected-tour">
+                            <div class="tour-preview">
+                                <div class="tour-preview-image"></div>
+                                <div class="tour-preview-info">
+                                    <h4>Нижегородский Кремль</h4>
+                                    <p>Исторический центр города с древними стенами и башнями</p>
+                                    <div class="tour-details">
+                                        <span class="detail">⏱ 2 часа</span>
+                                        <span class="detail">👥 До 15 человек</span>
+                                        <span class="detail">💰 ₽1500/чел</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-info">
+                            <h4>Дата и время</h4>
+                            <div class="schedule-details">
+                                <span class="date">📅 15 декабря 2024</span>
+                                <span class="time">🕐 14:00 - 16:00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="registration-form-container">
+                        <form class="registration-form">
+                            <div class="form-section">
+                                <h3>Личная информация</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="firstName">Имя *</label>
+                                        <input type="text" id="firstName" name="firstName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">Фамилия *</label>
+                                        <input type="text" id="lastName" name="lastName" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="email">Email *</label>
+                                        <input type="email" id="email" name="email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Телефон *</label>
+                                        <input type="tel" id="phone" name="phone" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h3>Детали бронирования</h3>
+                                <div class="form-group">
+                                    <label for="participants">Количество участников *</label>
+                                    <select id="participants" name="participants" required>
+                                        <option value="">Выберите количество</option>
+                                        <option value="1">1 участник</option>
+                                        <option value="2">2 участника</option>
+                                        <option value="3">3 участника</option>
+                                        <option value="4">4 участника</option>
+                                        <option value="5">5 участников</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="comment">Особые пожелания</label>
+                                    <textarea id="comment" name="comment" rows="3" placeholder="Дополнительная информация..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h3>Способы оплаты</h3>
+                                <div class="payment-methods">
+                                    <label class="payment-method">
+                                        <input type="radio" name="payment" value="online" checked>
+                                        <span class="payment-label">
+                                            <span class="payment-icon">💳</span>
+                                            <span class="payment-text">Онлайн оплата</span>
+                                        </span>
+                                    </label>
+                                    <label class="payment-method">
+                                        <input type="radio" name="payment" value="cash">
+                                        <span class="payment-label">
+                                            <span class="payment-icon">💵</span>
+                                            <span class="payment-text">Наличные на месте</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-summary">
+                                <div class="summary-row">
+                                    <span>Стоимость (1 чел):</span>
+                                    <span>₽1500</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Количество:</span>
+                                    <span id="participants-count">1</span>
+                                </div>
+                                <div class="summary-total">
+                                    <span>Итого:</span>
+                                    <span id="total-price">₽1500</span>
+                                </div>
+                            </div>
+
+                            <div class="form-agreement">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" required>
+                                    <span class="checkmark"></span>
+                                    Я согласен с <a href="#">правилами бронирования</a> и <a href="#">политикой конфиденциальности</a>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn-primary btn-large">Забронировать экскурсию</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Волжские просторы</h3>
+                    <p>Туры и экскурсии по Нижнему Новгороду</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Навигация</h4>
+                    <ul>
+                        <li><a href="index.html#tours">Экскурсии</a></li>
+                        <li><a href="schedule.html">Расписание</a></li>
+                        <li><a href="index.html#about">О нас</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p>+7 (831) 123-45-67</p>
+                    <p>info@volga-tours.ru</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Турагентство «Волжские просторы». Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/registration.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

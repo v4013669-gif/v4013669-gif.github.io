@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет - Волжские просторы</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dark-theme.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <h2><a href="index.html" style="color: inherit; text-decoration: none;">Волжские просторы</a></h2>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html#tours">Экскурсии</a></li>
+                    <li><a href="schedule.html">Расписание</a></li>
+                    <li><a href="index.html#about">О нас</a></li>
+                    <li><a href="index.html#contacts">Контакты</a></li>
+                    <li><a href="account.html" class="btn-login active">Личный кабинет</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Account Section -->
+    <section class="account">
+        <div class="container">
+            <div class="account-header">
+                <h1>Личный кабинет</h1>
+                <p>Управление вашими бронированиями и настройками</p>
+            </div>
+
+            <div class="account-layout">
+                <!-- Sidebar -->
+                <aside class="account-sidebar">
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <span>ИИ</span>
+                        </div>
+                        <div class="user-info">
+                            <h3>Иван Иванов</h3>
+                            <p>ivan@example.com</p>
+                        </div>
+                    </div>
+                    
+                    <nav class="account-nav">
+                        <a href="#bookings" class="nav-item active">
+                            <span class="nav-icon">📋</span>
+                            <span class="nav-text">Мои бронирования</span>
+                        </a>
+                        <a href="#profile" class="nav-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">Профиль</span>
+                        </a>
+                        <a href="#settings" class="nav-item">
+                            <span class="nav-icon">⚙️</span>
+                            <span class="nav-text">Настройки</span>
+                        </a>
+                        <a href="#logout" class="nav-item">
+                            <span class="nav-icon">🚪</span>
+                            <span class="nav-text">Выйти</span>
+                        </a>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="account-content">
+                    <div class="content-section active" id="bookings-content">
+                        <div class="section-header">
+                            <h2>Мои бронирования</h2>
+                            <div class="booking-filters">
+                                <button class="filter-btn active">Все</button>
+                                <button class="filter-btn">Предстоящие</button>
+                                <button class="filter-btn">Завершенные</button>
+                            </div>
+                        </div>
+
+                        <div class="bookings-list">
+                            <div class="booking-card">
+                                <div class="booking-status confirmed">
+                                    <span>Подтверждено</span>
+                                </div>
+                                <div class="booking-info">
+                                    <h4>Нижегородский Кремль</h4>
+                                    <div class="booking-details">
+                                        <span class="detail">📅 15 декабря 2024</span>
+                                        <span class="detail">🕐 14:00 - 16:00</span>
+                                        <span class="detail">👥 2 участника</span>
+                                        <span class="detail">💰 ₽3000</span>
+                                    </div>
+                                    <p class="booking-guide">Гид: Анна Петрова</p>
+                                </div>
+                                <div class="booking-actions">
+                                    <button class="btn-secondary">Отменить</button>
+                                    <button class="btn-primary">Детали</button>
+                                </div>
+                            </div>
+
+                            <div class="booking-card">
+                                <div class="booking-status pending">
+                                    <span>Ожидание</span>
+                                </div>
+                                <div class="booking-info">
+                                    <h4>Чкаловская лестница</h4>
+                                    <div class="booking-details">
+                                        <span class="detail">📅 20 декабря 2024</span>
+                                        <span class="detail">🕐 11:00 - 12:30</span>
+                                        <span class="detail">👥 1 участник</span>
+                                        <span class="detail">💰 ₽1200</span>
+                                    </div>
+                                    <p class="booking-guide">Гид: Иван Сидоров</p>
+                                </div>
+                                <div class="booking-actions">
+                                    <button class="btn-secondary">Отменить</button>
+                                    <button class="btn-primary">Оплатить</button>
+                                </div>
+                            </div>
+
+                            <div class="booking-card">
+                                <div class="booking-status completed">
+                                    <span>Завершено</span>
+                                </div>
+                                <div class="booking-info">
+                                    <h4>Большая Покровская</h4>
+                                    <div class="booking-details">
+                                        <span class="detail">📅 5 декабря 2024</span>
+                                        <span class="detail">🕐 15:00 - 17:30</span>
+                                        <span class="detail">👥 3 участника</span>
+                                        <span class="detail">💰 ₽5400</span>
+                                    </div>
+                                    <p class="booking-guide">Гид: Мария Иванова</p>
+                                </div>
+                                <div class="booking-actions">
+                                    <button class="btn-secondary">Оставить отзыв</button>
+                                    <button class="btn-primary">Повторить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-section" id="profile-content">
+                        <div class="section-header">
+                            <h2>Настройки профиля</h2>
+                        </div>
+                        
+                        <form class="profile-form">
+                            <div class="form-section">
+                                <h3>Личная информация</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="profileFirstName">Имя</label>
+                                        <input type="text" id="profileFirstName" value="Иван" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profileLastName">Фамилия</label>
+                                        <input type="text" id="profileLastName" value="Иванов" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="profileEmail">Email</label>
+                                        <input type="email" id="profileEmail" value="ivan@example.com" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profilePhone">Телефон</label>
+                                        <input type="tel" id="profilePhone" value="+7 (912) 345-67-89" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h3>Уведомления</h3>
+                                <div class="notification-settings">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" checked>
+                                        <span class="checkmark"></span>
+                                        Уведомления о новых экскурсиях
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" checked>
+                                        <span class="checkmark"></span>
+                                        Напоминания о бронированиях
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                        Специальные предложения
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-primary">Сохранить изменения</button>
+                        </form>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Волжские просторы</h3>
+                    <p>Туры и экскурсии по Нижнему Новгороду</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Навигация</h4>
+                    <ul>
+                        <li><a href="index.html#tours">Экскурсии</a></li>
+                        <li><a href="schedule.html">Расписание</a></li>
+                        <li><a href="index.html#about">О нас</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p>+7 (831) 123-45-67</p>
+                    <p>info@volga-tours.ru</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Турагентство «Волжские просторы». Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/account.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
